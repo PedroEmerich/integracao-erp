@@ -263,6 +263,11 @@ const SEND_ERROR_MSG: Partial<Record<ErrorCode, (out: Record<string, unknown>, c
   },
 };
 
+function shortCode(out: Record<string, unknown>, ctx: SeedCtx): string {
+  const itens = (out.itens as { C6_PRODUTO: string; C6_QTDVEN: number }[]) ?? [];
+  return (itens.find((i) => (ctx.catalog[i.C6_PRODUTO]?.stock ?? 0) < i.C6_QTDVEN) ?? itens[0]).C6_PRODUTO;
+}
+
 export function buildSeedJob(id: IntegrationId, input: unknown, createdAt: Date, plan: SeedPlan, ctx: SeedCtx): Job {
   const rng = ctx.rng;
   let t = createdAt.getTime();
@@ -363,7 +368,7 @@ export function buildSeedJob(id: IntegrationId, input: unknown, createdAt: Date,
     const message = SEND_ERROR_MSG[sendErr]?.(prep.output, ctx) ?? 'Erro no envio.';
     timeline.push(ev('sent', 'error', message, d, attempt));
     job.status = 'error';
-    job.error = makeError(sendErr, message, sendErr === 'TITULO_JA_BAIXADO' ? { value: String(prep.output.E1_NUMBCO) } : sendErr === 'ESTOQUE_INSUFICIENTE' ? { field: 'items[].quantity' } : {});
+    job.error = makeError(sendErr, message, sendErr === 'TITULO_JA_BAIXADO' ? { value: String(prep.output.E1_NUMBCO) } : sendErr === 'ESTOQUE_INSUFICIENTE' ? { field: 'items[].quantity', value: shortCode(prep.output, ctx) } : {});
     job.wasError = true;
     job.updatedAt = new Date(t).toISOString();
     job.durationMs = t - createdAt.getTime();

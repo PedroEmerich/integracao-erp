@@ -119,7 +119,7 @@ export function AlertsPage() {
   const [editing, setEditing] = useState<AlertRule | null>(null);
   const [selected, setSelected] = useState<string | null>(params.get('n') ?? notifications[0]?.id ?? null);
   const [channel, setChannel] = useState<'email' | 'whatsapp'>('whatsapp');
-  const m15 = useMemo(() => computeMetrics(jobs, integrations, new Date(), 15), [jobs, integrations]);
+  const m15 = useMemo(() => computeMetrics(jobs, integrations, new Date(), 60), [jobs, integrations]);
   const sel = notifications.find((n) => n.id === selected);
 
   useEffect(() => {
@@ -158,9 +158,9 @@ export function AlertsPage() {
       </div>
 
       <div className="grid grid-kpi" style={{ marginBottom: 16 }}>
-        <div className="card kpi"><span className="kpi-label">Taxa de erro (15 min)</span><span className="kpi-value tabnum">{fmtPct(m15.errorRate)}</span><span className="kpi-foot">{m15.errors} de {m15.finished} itens</span></div>
+        <div className="card kpi"><span className="kpi-label">Taxa de erro (60 min)</span><span className="kpi-value tabnum">{fmtPct(m15.errorRate)}</span><span className="kpi-foot">{m15.errors} de {m15.finished} itens</span></div>
         <div className="card kpi"><span className="kpi-label">Erros pendentes</span><span className="kpi-value tabnum">{m15.pendingErrors}</span><span className="kpi-foot">Na fila aguardando ação</span></div>
-        <div className="card kpi"><span className="kpi-label">Tempo médio (15 min)</span><span className="kpi-value tabnum">{fmtDuration(m15.avgDurationMs)}</span><span className="kpi-foot">Itens concluídos</span></div>
+        <div className="card kpi"><span className="kpi-label">Tempo médio (60 min)</span><span className="kpi-value tabnum">{fmtDuration(m15.avgDurationMs)}</span><span className="kpi-foot">Itens concluídos</span></div>
         <div className="card kpi"><span className="kpi-label">Conectores com falha</span><span className="kpi-value tabnum">{m15.downConnectors.length}</span><span className="kpi-foot">{m15.downConnectors.join(', ') || 'Todos respondendo'}</span></div>
         <div className="card kpi"><span className="kpi-label">Notificações não lidas</span><span className="kpi-value tabnum">{notifications.filter((n) => !n.read).length}</span><span className="kpi-foot">{notifications.length} no total</span></div>
       </div>

@@ -541,9 +541,9 @@ export function createSeedData(now = new Date()): HubData {
   jobs.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
   const alertRules: AlertRule[] = [
-    { id: 'al-1', name: 'Taxa de erro alta', metric: 'errorRate', threshold: 15, windowMin: 15, channels: ['email', 'whatsapp', 'app'], recipients: 'ti@nortex.demo; (11) 98888-0101', enabled: true, lastFiredAt: null },
-    { id: 'al-2', name: 'Fila de erros acumulando', metric: 'pendingErrors', threshold: 15, windowMin: 15, channels: ['email', 'app'], recipients: 'operacoes@nortex.demo', enabled: true, lastFiredAt: null },
-    { id: 'al-3', name: 'Conector fora do ar', metric: 'connectorDown', threshold: 0, windowMin: 5, channels: ['whatsapp', 'app'], recipients: '(11) 98888-0101', enabled: true, lastFiredAt: null },
+    { id: 'al-1', name: 'Taxa de erro alta', metric: 'errorRate', threshold: 15, windowMin: 15, channels: ['email', 'whatsapp', 'app'], recipients: 'ti@nortex.demo; (11) 98888-0101', enabled: true, lastFiredAt: new Date(now.getTime() - 1.2 * 3600000).toISOString() },
+    { id: 'al-2', name: 'Fila de erros acumulando', metric: 'pendingErrors', threshold: 15, windowMin: 15, channels: ['email', 'app'], recipients: 'operacoes@nortex.demo', enabled: true, lastFiredAt: new Date(now.getTime() - 46 * 3600000).toISOString() },
+    { id: 'al-3', name: 'Conector fora do ar', metric: 'connectorDown', threshold: 0, windowMin: 5, channels: ['whatsapp', 'app'], recipients: '(11) 98888-0101', enabled: true, lastFiredAt: new Date(now.getTime() - 22 * 3600000).toISOString() },
     { id: 'al-4', name: 'Sincronização lenta', metric: 'avgDuration', threshold: 8, windowMin: 15, channels: ['app'], recipients: 'ti@nortex.demo', enabled: false, lastFiredAt: null },
   ];
 

@@ -266,10 +266,10 @@ export function ImportPage() {
                     <tr>
                       <th>Linha</th>
                       <th>Status</th>
+                      <th>Problemas</th>
                       {SHEET_COLUMNS.map((c) => (
                         <th key={c} className={c === 'descricao' ? 'hide-sm' : undefined}>{COL_LABEL[c]}</th>
                       ))}
-                      <th>Problemas</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -279,12 +279,12 @@ export function ImportPage() {
                         <tr key={r.line} className={r.valid ? '' : 'row-error'}>
                           <td className="num muted">{r.line}</td>
                           <td>{r.valid ? <span className="badge b-ok"><CheckCircle2 size={12} aria-hidden /> OK</span> : <span className="badge b-err"><XCircle size={12} aria-hidden /> Erro</span>}</td>
+                          <td className="small" style={{ color: 'var(--err)', minWidth: 280, maxWidth: 360, whiteSpace: 'normal' }}>{r.errors.map((e) => e.message).join(' · ')}</td>
                           {SHEET_COLUMNS.map((c) => (
                             <td key={c} className={`${errCols.has(c) ? 'cell-error' : ''} ${c === 'descricao' || c === 'razao_social' ? 'ellipsis' : ''} ${c === 'descricao' ? 'hide-sm' : ''}`} title={errCols.get(c)}>
                               {r.raw[c] || (errCols.has(c) ? '(vazio)' : '')}
                             </td>
                           ))}
-                          <td className="small" style={{ color: 'var(--err)', minWidth: 260, whiteSpace: 'normal' }}>{r.errors.map((e) => e.message).join(' · ')}</td>
                         </tr>
                       );
                     })}

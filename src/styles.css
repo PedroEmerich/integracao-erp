@@ -417,6 +417,7 @@ table.table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .filters .row { flex-wrap: wrap; margin-left: 0 !important; }
   .live-full { display: none; }
   .kpi-value { font-size: 22px; }
+  .grid-kpi > .kpi:last-child:nth-child(odd) { grid-column: span 2; }
   .hide-sm { display: none !important; }
   .map-row { grid-template-columns: 1fr; gap: 6px; }
   .map-row .arrow { display: none; }
